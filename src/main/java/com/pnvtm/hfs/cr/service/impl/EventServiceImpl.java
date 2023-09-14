@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class EventServiceImpl implements EventService {
 
     private static final int seconds = 60;
-    private static final Duration SLIDING_WINDOW_DURATION = Duration.ofDays(seconds);
+    private static final Duration SLIDING_WINDOW_DURATION = Duration.ofSeconds(seconds);
     private final AtomicReference<DataStatistics> dataStatistics = new AtomicReference<>(new DataStatistics(SLIDING_WINDOW_DURATION));
     private final PriorityBlockingQueue<EventData> dataQueue = new PriorityBlockingQueue<>(seconds * 1000); // seconds in milliseconds
 
