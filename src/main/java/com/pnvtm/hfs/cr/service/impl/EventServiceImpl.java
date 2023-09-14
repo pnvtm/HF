@@ -17,7 +17,7 @@ public class EventServiceImpl implements EventService {
     private static final int seconds = 60;
     private static final Duration SLIDING_WINDOW_DURATION = Duration.ofSeconds(seconds);
     private final AtomicReference<DataStatistics> dataStatistics = new AtomicReference<>(new DataStatistics(SLIDING_WINDOW_DURATION));
-    private final PriorityBlockingQueue<EventData> dataQueue = new PriorityBlockingQueue<>(seconds * 1000); // seconds in milliseconds
+    private final PriorityBlockingQueue<EventData> dataQueue = new PriorityBlockingQueue<>();
 
     public void placeEvent(long timestamp, double dataX, int dataY) {
 
