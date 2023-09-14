@@ -1,10 +1,9 @@
 package com.pnvtm.hfs.cr.service.impl;
 
-import com.pnvtm.hfs.cr.domain.EventData;
 import com.pnvtm.hfs.cr.domain.DataStatistics;
+import com.pnvtm.hfs.cr.domain.EventData;
 import com.pnvtm.hfs.cr.service.EventService;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -33,12 +32,7 @@ public class EventServiceImpl implements EventService {
 
     public String getStat() {
         DataStatistics stats = dataStatistics.get();
-        stats.update(dataQueue); // Update statistics based on the concurrent deque
 
-        if (stats.isEmpty()) {
-            throw new NotFoundException("No events inside the given interval.");
-        } else {
-            return stats.getStatistics();
-        }
+        return stats.getStatistics(dataQueue);
     }
 }

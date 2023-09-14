@@ -3,7 +3,6 @@ package com.pnvtm.hfs.cr.config;
 import com.pnvtm.hfs.cr.domain.EventData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -33,7 +32,7 @@ class EventDataArgumentResolver implements HandlerMethodArgumentResolver {
 
         String[] parts = body.split(",");
         if (parts.length != 3) {
-            return ResponseEntity.badRequest().build();
+            throw new IllegalArgumentException();
         }
 
         long timestamp = Long.parseLong(parts[0]);
