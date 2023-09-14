@@ -26,16 +26,15 @@ public class DataStatistics {
             // Remove events outside the sliding window
             while (true) {
                 EventData event = dataQueue.peek();
-                if (event == null || Instant.ofEpochMilli(event.getTimestamp()).isBefore(windowStart)) {
+                if (event != null && Instant.ofEpochMilli(event.getTimestamp()).isBefore(windowStart)) {
                     // Event is outside the sliding window or queue is empty
                     dataQueue.poll();
                 } else {
-                    // Event is inside the sliding window
+                    // All other Events is inside the sliding window
                     break;
                 }
             }
 
-            // Recalculate statistics based on remaining events
             sumX = dataQueue.stream().mapToDouble(EventData::getDataX).sum();
             sumY = dataQueue.stream().mapToDouble(EventData::getDataY).sum();
             count = dataQueue.size();
