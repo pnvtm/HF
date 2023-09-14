@@ -1,7 +1,7 @@
 package com.pnvtm.hfs.cr.service.impl;
 
 import com.pnvtm.hfs.cr.domain.EventData;
-import com.pnvtm.hfs.cr.service.DataStatistics;
+import com.pnvtm.hfs.cr.domain.DataStatistics;
 import com.pnvtm.hfs.cr.service.EventService;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -14,14 +14,13 @@ import java.util.concurrent.atomic.AtomicReference;
 @Service
 public class EventServiceImpl implements EventService {
 
-    private static final int seconds = 60;
-    private static final Duration SLIDING_WINDOW_DURATION = Duration.ofSeconds(seconds);
+    private static final Duration SLIDING_WINDOW_DURATION = Duration.ofSeconds(60);
     private final AtomicReference<DataStatistics> dataStatistics = new AtomicReference<>(new DataStatistics(SLIDING_WINDOW_DURATION));
     private final PriorityBlockingQueue<EventData> dataQueue = new PriorityBlockingQueue<>();
 
-    public void placeEvent(long timestamp, double dataX, int dataY) {
+    public void placeEvent(EventData event) {
 
-        Instant eventTime = Instant.ofEpochMilli(timestamp);
+        Instant eventTime = Instant.ofEpochMilli(event.getTimestamp());
         Instant currentTime = Instant.now();
         if (eventTime.isBefore(currentTime.minus(SLIDING_WINDOW_DURATION))) {
             // Ignore data points outside the sliding window
@@ -29,7 +28,7 @@ public class EventServiceImpl implements EventService {
         }
 
         // Add the event data to the blocking queue
-        dataQueue.add(new EventData(timestamp, dataX, dataY));
+        dataQueue.add(event);
     }
 
     public String getStat() {

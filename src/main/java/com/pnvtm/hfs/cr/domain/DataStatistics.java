@@ -1,6 +1,4 @@
-package com.pnvtm.hfs.cr.service;
-
-import com.pnvtm.hfs.cr.domain.EventData;
+package com.pnvtm.hfs.cr.domain;
 
 import java.time.Duration;
 import java.time.Instant;
